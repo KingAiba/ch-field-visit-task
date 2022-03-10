@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             isDead = true;
-            Debug.Log("obstacle hit");
+            //Debug.Log("obstacle hit");
         }
     }
 }

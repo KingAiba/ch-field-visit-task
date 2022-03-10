@@ -6,6 +6,8 @@ public class GroundController : MonoBehaviour
 {
     public List<GameObject> obstaclePrefabs = new List<GameObject>();
 
+    public List<GameObject> activeObjects = new List<GameObject>();
+
     public float moveSpeed = 2f;
     public Vector3 moveDirection = new Vector3(1f, 0f, 0f);
 
@@ -21,29 +23,32 @@ public class GroundController : MonoBehaviour
     
     void Start()
     {
-        SpawnObstacles();
+        //SpawnObstacles();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
     {
-        //moveGround();
+        SpawnObstacles();
     }
 
     public void SpawnObstacles()
     {
-        if(canSpawn)
+        if(activeObjects.Count <= 0)
         {
             for(int i =0; i < numberToSpawn; i++)
             {
                 GameObject obs = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Count)];
                 Vector3 spawnPos = GenerateRandomSpawnPoint();
-
+                Debug.Log(spawnPos);
                 ObstacleScript obsScript = obs.GetComponent<ObstacleScript>();
                 obsScript.gameManager = gameManager;
-                spawnPos.y = obsScript.yOffset;
+                obsScript.gc = this;
+                //spawnPos.y = obsScript.yOffset;
 
                 GameObject go = Instantiate(obs);
+
+                activeObjects.Add(go);
                 //go.transform.SetParent(gameObject.transform, false);
                 //go.transform.position = spawnPos;
             }
@@ -54,7 +59,7 @@ public class GroundController : MonoBehaviour
 
     public Vector3 GenerateRandomSpawnPoint()
     {
-        return new Vector3(Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.y), 0, 0);
+        return new Vector3(Random.Range(-6f, -1f), 0, 0);
     }
 
     public void moveGround()
@@ -64,5 +69,10 @@ public class GroundController : MonoBehaviour
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
         }
         
+    }
+
+    public void RemoveObs(GameObject obs)
+    {
+        activeObjects.Remove(obs);
     }
 }

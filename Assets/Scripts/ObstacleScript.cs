@@ -13,6 +13,7 @@ public class ObstacleScript : MonoBehaviour
     public ScoreTriggerScript scoreTrigger;
 
     public GameManager gameManager;
+    public GroundController gc;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +26,7 @@ public class ObstacleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CheckScoreTrigger();
     }
 
     public void SetObsVelocity()
@@ -39,5 +40,18 @@ public class ObstacleScript : MonoBehaviour
         {
             gameManager.AddScore(10);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("DestroySensor"))
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        gc.RemoveObs(gameObject);
     }
 }
