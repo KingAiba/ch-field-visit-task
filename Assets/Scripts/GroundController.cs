@@ -20,6 +20,8 @@ public class GroundController : MonoBehaviour
 
     public GameManager gameManager;
 
+    public float spawnCooldown = 0f;
+
     
     void Start()
     {
@@ -34,7 +36,7 @@ public class GroundController : MonoBehaviour
 
     public void SpawnObstacles()
     {
-        if(activeObjects.Count <= 0)
+        if(canSpawn)
         {
             for(int i =0; i < numberToSpawn; i++)
             {
@@ -54,6 +56,8 @@ public class GroundController : MonoBehaviour
             }
 
             canSpawn = false;
+            spawnCooldown = Random.Range(1f, 4f);
+            StartCoroutine(spawnProcedure());
         }
     }
 
@@ -74,5 +78,11 @@ public class GroundController : MonoBehaviour
     public void RemoveObs(GameObject obs)
     {
         activeObjects.Remove(obs);
+    }
+
+    public IEnumerator spawnProcedure()
+    {
+        yield return new WaitForSeconds(spawnCooldown);
+        canSpawn = true;
     }
 }
