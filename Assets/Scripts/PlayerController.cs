@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
 
     private InputManager playerInputManager;
 
+    public delegate void OnPlayerDeathDelegate();
+    public OnPlayerDeathDelegate OnPlayerDeath;
+
     void Start()
     {
         playerInputManager = GetComponent<InputManager>();
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         {
             isDead = true;
             //Debug.Log("obstacle hit");
+            OnPlayerDeath?.Invoke();
         }
     }
 }

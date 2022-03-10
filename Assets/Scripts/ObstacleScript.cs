@@ -15,6 +15,8 @@ public class ObstacleScript : MonoBehaviour
     public GameManager gameManager;
     public GroundController gc;
 
+    public bool scoreAdded = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,9 +38,10 @@ public class ObstacleScript : MonoBehaviour
 
     public void CheckScoreTrigger()
     {
-        if(scoreTrigger.inScoreTrigger)
+        if(scoreTrigger.inScoreTrigger && !scoreAdded)
         {
             gameManager.AddScore(10);
+            scoreAdded = true;
         }
     }
 

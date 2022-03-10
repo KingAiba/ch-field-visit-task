@@ -19,6 +19,7 @@ public class ScoreTriggerScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        inScoreTrigger = false;
         //Debug.Log("HERe");
         if(other.CompareTag("Player"))
         {
@@ -34,4 +35,5 @@ public class ScoreTriggerScript : MonoBehaviour
     {
         inScoreTrigger = false;
     }
+
 }
